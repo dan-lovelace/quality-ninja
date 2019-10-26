@@ -4,9 +4,6 @@ import './style.scss';
 
 export default ({ children }) => (
   <div className="popup container">
-    <div className="popup--content">
-      {children}
-      Test
-    </div>
+    <div className="popup--content">{children}</div>
   </div>
 );
