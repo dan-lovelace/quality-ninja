@@ -1,11 +1,12 @@
 import React from 'react';
 
-import './style.scss'
+import './style.scss';
 
 export default ({ children }) => (
-  <div className='popup container'>
-    <div className='popup--content'>
+  <div className="popup container">
+    <div className="popup--content">
       {children}
+      Test
     </div>
   </div>
-)
+);
