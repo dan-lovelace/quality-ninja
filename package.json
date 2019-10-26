@@ -8,7 +8,7 @@
     "build:production": "bash scripts/build_static.sh production",
     "build-partial:core": "bash scripts/build_static.sh core",
     "build-partial:popup": "bash scripts/build_static.sh popup",
-    "lint": "eslint src -c .eslintrc.json --ext js,jsx"
+    "lint": "eslint . -c .eslintrc.json --ext js,jsx"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,25 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
     "prettier": "^1.18.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "CI=true yarn test"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --single-quote",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
