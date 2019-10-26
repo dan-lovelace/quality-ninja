@@ -12,18 +12,21 @@ class Edit extends React.Component {
   constructor(props) {
     super(props);
 
-    const defaultTemplate = defaultTemplates.find(template => template.type === props.match.params.type);
+    const defaultTemplate = defaultTemplates.find(
+      template => template.type === props.match.params.type,
+    );
     const { type, placeholder } = defaultTemplate;
     const formattedPlaceholder = placeholder.replace(/&nbsp/g, ' ');
 
     this.state = {
-      templateText: localStorage.getItem(`${type}-template`) || formattedPlaceholder,
+      templateText:
+        localStorage.getItem(`${type}-template`) || formattedPlaceholder,
       placeholder: formattedPlaceholder,
       defaultTemplate,
     };
   }
 
-  handleSave = () => {
+  handleSave() {
     const { templateText, defaultTemplate } = this.state;
 
     localStorage.setItem(`${defaultTemplate.type}-template`, templateText);
@@ -31,17 +34,21 @@ class Edit extends React.Component {
   }
 
   render() {
-    const { templateText, placeholder, defaultTemplate: { label } } = this.state;
+    const {
+      templateText,
+      placeholder,
+      defaultTemplate: { label },
+    } = this.state;
 
     return (
       <div className="edit-page">
-        <div className="heading">
-          Editing {label} template
-        </div>
+        <div className="heading">Editing {label} template</div>
         <div className="body">
           <TextField
             value={templateText}
-            onChange={({ target: { value }}) => this.setState({ templateText: value })}
+            onChange={({ target: { value } }) =>
+              this.setState({ templateText: value })
+            }
             multiline
             fullWidth
             placeholder={placeholder}
@@ -51,11 +58,7 @@ class Edit extends React.Component {
           />
         </div>
         <div className="actions">
-          <Button
-            onClick={() => history.push('/popup')}
-          >
-            Back
-          </Button>
+          <Button onClick={() => history.push('/popup')}>Back</Button>
           <Button
             className="save-button"
             onClick={this.handleSave}
@@ -69,6 +72,6 @@ class Edit extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default Edit;

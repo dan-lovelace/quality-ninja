@@ -15,10 +15,12 @@ import history from '../../utils/history';
 
 const handleTemplateClick = type => {
   const localStorageItem = localStorage.getItem(`${type}-template`);
-  const defaultTemplateText = defaultTemplates.find(template => template.type === type).placeholder;;
+  const defaultTemplateText = defaultTemplates.find(
+    template => template.type === type,
+  ).placeholder;
 
   copyToClipboard(localStorageItem || defaultTemplateText);
-}
+};
 
 const Home = () => (
   <div className="home-page">
@@ -27,18 +29,19 @@ const Home = () => (
         const { type, label } = template;
 
         return (
-        <ListItem key={type} button onClick={() => handleTemplateClick(type)}>
-          <ListItemIcon>
-            <CopyIcon />
-          </ListItemIcon>
-          <ListItemText primary={label} />
-          <ListItemSecondaryAction>
-            <Button onClick={() => history.push(`/edit/${type}`)}>
-              Edit
-            </Button>
-          </ListItemSecondaryAction>
-        </ListItem>
-      )})}
+          <ListItem key={type} button onClick={() => handleTemplateClick(type)}>
+            <ListItemIcon>
+              <CopyIcon />
+            </ListItemIcon>
+            <ListItemText primary={label} />
+            <ListItemSecondaryAction>
+              <Button onClick={() => history.push(`/edit/${type}`)}>
+                Edit
+              </Button>
+            </ListItemSecondaryAction>
+          </ListItem>
+        );
+      })}
     </List>
   </div>
 );
