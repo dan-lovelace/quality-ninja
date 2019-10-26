@@ -12,7 +12,8 @@ import Switch from '@material-ui/core/Switch';
 import Typography from '@material-ui/core/Typography';
 
 import './style.scss';
-import fields from '../../lib/fields';
+import fields from '../../utils/fields';
+import history from '../../utils/history';
 
 class Home extends React.Component {
   constructor(props) {
@@ -22,6 +23,8 @@ class Home extends React.Component {
       loading: true,
       data: null,
       changed: false,
+      showEdit: false,
+      editType: null,
     };
 
     chrome.storage.sync.get(fields.map(field => field.id), storage => {
@@ -41,51 +44,14 @@ class Home extends React.Component {
     });
   }
 
-  toggleOption = id => {
-    const { changed } = this.state;
+  handleTemplateClick = type => {
+    const item = localStorage.getItem(`${type}-template`);
+    console.log('item', item);
+  }
 
-    if (
-      !id
-      || id.length < 1
-      || !(fields.find(field => field.id === id))
-    ) {
-      return false;
-    };
-
-    const { data: currentData } = this.state;
-    const key = id;
-    const value = !!currentData[id];
-    const obj = { [key]: !value };
-    const newData = {
-      ...currentData,
-      ...obj
-    };
-
-    if (key === 'voteButtons' && newData[key] === true) {
-      newData.postScore = true;
-    }
-
-    if (key === 'postScore' && newData[key] === false){
-      newData.voteButtons = false;
-    }
-
-    chrome.storage.sync.set({
-      ...newData,
-      saved: true,
-    });
-
-    // NOTE: the following requires use of the 'tabs' permission which shows a message
-    // to the user when installing that the extension has access to browser history
-    // chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    //   chrome.tabs.sendMessage(
-    //     tabs[0].id,
-    //     { from: 'popup', subject: 'UpdateConfig', data: newData }
-    //   )
-    // });
-
+  handleEditClose = () => {
     this.setState({
-      data: newData,
-      changed: changed || newData[id] !== currentData[id]
+      showEdit: false,
     });
   }
 
@@ -95,7 +61,7 @@ class Home extends React.Component {
   }
 
   render() {
-    const { loading, data, changed } = this.state;
+    const { loading, data, changed, showEdit, editType } = this.state;
     const { classes } = this.props;
 
     return (
@@ -106,38 +72,30 @@ class Home extends React.Component {
           ) : (
             <Fragment>
               <List dense>
-                {fields.map(field => {
-                  const { id, label, defaultValue } = field;
-                  const storageValue = data[id];
-
-                  return (
-                    <ListItem key={id} id={id} role={undefined} dense button onClick={() => this.toggleOption(id)}>
-                      <ListItemText primary={label} />
-                      <Switch
-                        checked={storageValue}
-                        disableRipple
-                        color='primary'
-                      />
-                    </ListItem>
-                  );
-                })}
-              </List>
-              {changed &&
-                <div className='popup--content__actions'>
-                  <Typography className='refresh-text' component='p'>
-                    <ListItem>
-                      {/* <ListItemIcon>
-                        <WarningIcon className='warning-icon' />
-                      </ListItemIcon> */}
-                      <ListItemText secondary='The page must be refreshed for these changes to take effect' />
-                    </ListItem>
-                  </Typography>
-                  <Button className='refresh-button' variant='contained' color='secondary' onClick={() => this.reloadPage()}>
-                    <RefreshIcon className='refresh-icon' />
-                    Refresh now
+                <ListItem button onClick={() => this.handleTemplateClick('report')}>
+                  <ListItemText primary="Copy report template" />
+                  <Button onClick={() => history.push('/edit/report')}>
+                    Edit
                   </Button>
+                </ListItem>
+                <ListItem button onClick={() => this.handleTemplateClick('bug')}>
+                  <ListItemText primary="Copy bug template" />
+                  <Button onClick={() => history.push('/edit/bug')}>
+                    Edit
+                  </Button>
+                </ListItem>
+              </List>
+              {showEdit && (
+                <div className="edit-overlay">
+                  <div className="header">
+                    Edit Page
+                  </div>
+                  <div className="body">
+                    {editType}
+                    TEST
+                  </div>
                 </div>
-              }
+              )}
             </Fragment>
           )}
         </div>

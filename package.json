@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:production": "sh scripts/build_static.sh production",
-    "build-partial:core": "sh scripts/build_static.sh core",
-    "build-partial:popup": "sh scripts/build_static.sh popup"
+    "build-partial:core": "bash scripts/build_static.sh core",
+    "build-partial:popup": "bash scripts/build_static.sh popup"
   },
   "repository": {
     "type": "git",
