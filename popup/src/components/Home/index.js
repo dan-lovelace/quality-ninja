@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import copyToClipboard from 'copy-to-clipboard';
 
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -6,102 +7,40 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import WarningIcon from '@material-ui/icons/Warning';
-import Switch from '@material-ui/core/Switch';
-import Typography from '@material-ui/core/Typography';
+import CopyIcon from '@material-ui/icons/FileCopy';
 
 import './style.scss';
-import fields from '../../utils/fields';
+import { defaultTemplates } from '../../utils/templates';
 import history from '../../utils/history';
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
+const handleTemplateClick = type => {
+  const localStorageItem = localStorage.getItem(`${type}-template`);
+  const defaultTemplateText = defaultTemplates.find(template => template.type === type).placeholder;;
 
-    this.state = {
-      loading: true,
-      data: null,
-      changed: false,
-      showEdit: false,
-      editType: null,
-    };
+  copyToClipboard(localStorageItem || defaultTemplateText);
+}
 
-    chrome.storage.sync.get(fields.map(field => field.id), storage => {
-      const defaults = fields.reduce((acc, val, index) => index !== 1
-        ? Object.assign(acc, { [val.id]: val.defaultValue })
-        : Object.assign({ [acc.id]: acc.defaultValue }, { [val.id]: val.defaultValue })
-      );
-      const userConfig = {
-        ...defaults,
-        ...storage,
-      };
+const Home = () => (
+  <div className="home-page">
+    <List dense>
+      {defaultTemplates.map(template => {
+        const { type, label } = template;
 
-      this.setState({
-        loading: false,
-        data: userConfig,
-      });
-    });
-  }
-
-  handleTemplateClick = type => {
-    const item = localStorage.getItem(`${type}-template`);
-    console.log('item', item);
-  }
-
-  handleEditClose = () => {
-    this.setState({
-      showEdit: false,
-    });
-  }
-
-  reloadPage = () => {
-    chrome.tabs.reload();
-    window.close();
-  }
-
-  render() {
-    const { loading, data, changed, showEdit, editType } = this.state;
-    const { classes } = this.props;
-
-    return (
-      <div className='popup container'>
-        <div className='popup--content'>
-          {loading ? (
-            <div>Loading</div>
-          ) : (
-            <Fragment>
-              <List dense>
-                <ListItem button onClick={() => this.handleTemplateClick('report')}>
-                  <ListItemText primary="Copy report template" />
-                  <Button onClick={() => history.push('/edit/report')}>
-                    Edit
-                  </Button>
-                </ListItem>
-                <ListItem button onClick={() => this.handleTemplateClick('bug')}>
-                  <ListItemText primary="Copy bug template" />
-                  <Button onClick={() => history.push('/edit/bug')}>
-                    Edit
-                  </Button>
-                </ListItem>
-              </List>
-              {showEdit && (
-                <div className="edit-overlay">
-                  <div className="header">
-                    Edit Page
-                  </div>
-                  <div className="body">
-                    {editType}
-                    TEST
-                  </div>
-                </div>
-              )}
-            </Fragment>
-          )}
-        </div>
-      </div>
-    );
-  }
-};
+        return (
+        <ListItem key={type} button onClick={() => handleTemplateClick(type)}>
+          <ListItemIcon>
+            <CopyIcon />
+          </ListItemIcon>
+          <ListItemText primary={label} />
+          <ListItemSecondaryAction>
+            <Button onClick={() => history.push(`/edit/${type}`)}>
+              Edit
+            </Button>
+          </ListItemSecondaryAction>
+        </ListItem>
+      )})}
+    </List>
+  </div>
+);
 
 export default Home;

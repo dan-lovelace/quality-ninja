@@ -1,16 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import RefreshIcon from '@material-ui/icons/Refresh';
-import WarningIcon from '@material-ui/icons/Warning';
-import Switch from '@material-ui/core/Switch';
-import Typography from '@material-ui/core/Typography';
-import Input from '@material-ui/core/Input';
+import SaveIcon from '@material-ui/icons/Save';
+import TextField from '@material-ui/core/TextField';
 
 import './style.scss';
 import history from '../../utils/history';
@@ -21,62 +13,58 @@ class Edit extends React.Component {
     super(props);
 
     const defaultTemplate = defaultTemplates.find(template => template.type === props.match.params.type);
-    const { type } = defaultTemplate;
+    const { type, placeholder } = defaultTemplate;
+    const formattedPlaceholder = placeholder.replace(/&nbsp/g, ' ');
 
     this.state = {
-      loading: true,
-      data: null,
-      changed: false,
-      showEdit: false,
-      editType: null,
-      template: localStorage.getItem(`${type}-template`),
-      type,
+      templateText: localStorage.getItem(`${type}-template`) || formattedPlaceholder,
+      placeholder: formattedPlaceholder,
       defaultTemplate,
     };
   }
 
   handleSave = () => {
-    const { template, type } = this.state;
+    const { templateText, defaultTemplate } = this.state;
 
-    localStorage.setItem(`${type}-template`, template);
+    localStorage.setItem(`${defaultTemplate.type}-template`, templateText);
     history.push('/popup');
   }
 
-  reloadPage = () => {
-    chrome.tabs.reload();
-    window.close();
-  }
-
   render() {
-    const { loading, data, changed, showEdit, editType, template, defaultTemplate } = this.state;
-    const { classes, match: { params } } = this.props;
+    const { templateText, placeholder, defaultTemplate: { label } } = this.state;
 
     return (
-      <div className='popup container'>
-        <div className='popup--content'>
-          <div>
-            Editing {params.type} template
-          </div>
-          <div>
-            <Input
-              value={template}
-              onChange={({ target: { value }}) => this.setState({ template: value })}
-              multiline
-              fullWidth
-              placeholder={defaultTemplate.placeholder}
-              rows="12"
-              variant="outlined"
-              margin="normal"
-            />
-          </div>
-          <div>
-            <Button onClick={() => history.push('/popup')}>
-              Back
-            </Button>
-            <Button onClick={this.handleSave}>
-              Save
-            </Button>
-          </div>
+      <div className="edit-page">
+        <div className="heading">
+          Editing {label} template
+        </div>
+        <div className="body">
+          <TextField
+            value={templateText}
+            onChange={({ target: { value }}) => this.setState({ templateText: value })}
+            multiline
+            fullWidth
+            placeholder={placeholder}
+            rows="15"
+            variant="outlined"
+            margin="normal"
+          />
+        </div>
+        <div className="actions">
+          <Button
+            onClick={() => history.push('/popup')}
+          >
+            Back
+          </Button>
+          <Button
+            className="save-button"
+            onClick={this.handleSave}
+            color="primary"
+            startIcon={<SaveIcon />}
+            variant="contained"
+          >
+            Save
+          </Button>
         </div>
       </div>
     );
