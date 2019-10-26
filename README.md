@@ -1,15 +1,6 @@
 # Quality Ninja
 
-A Chrome extension with options to remove the following components from Reddit:
-
-- Up/downvote buttons
-- User karma
-- Post scores
-- Comment scores
-- Post comment counts
-- Gilded icons
-
-[Available on the Chrome store](https://chrome.google.com/webstore/detail/novote/kepihiliocoofjjbgmcmalnjmeclpnga)
+A browser extension toolkit for Quality Analysts
 
 # Development
 
