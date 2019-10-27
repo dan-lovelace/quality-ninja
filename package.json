@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "build:production": "bash scripts/build_static.sh production",
     "build-partial:core": "bash scripts/build_static.sh core",
     "build-partial:popup": "bash scripts/build_static.sh popup",
