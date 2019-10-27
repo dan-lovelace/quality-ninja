@@ -9,7 +9,7 @@ browser.runtime.onInstalled.addListener(() => {
         conditions: [
           new browser.declarativeContent.PageStateMatcher({
             pageUrl: {
-              hostContains: '.',
+              urlMatches: '.*',
             },
           }),
         ],
