@@ -6,7 +6,8 @@ import TextField from '@material-ui/core/TextField';
 
 import './style.scss';
 import history from '../../utils/history';
-import { defaultTemplates } from '../../utils/templates';
+import { defaultTemplates, copyToClipboard } from '../../utils/templates';
+import { HOME_PAGE_ROUTE } from '../../utils/routes';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -26,12 +27,17 @@ class Edit extends React.Component {
     };
   }
 
-  handleSave() {
+  handleSaveClick = () => {
     const { templateText, defaultTemplate } = this.state;
 
     localStorage.setItem(`${defaultTemplate.type}-template`, templateText);
-    history.push('/popup');
-  }
+    copyToClipboard(templateText);
+    window.close();
+  };
+
+  handleBackClick = () => {
+    history.push(HOME_PAGE_ROUTE);
+  };
 
   render() {
     const {
@@ -58,15 +64,15 @@ class Edit extends React.Component {
           />
         </div>
         <div className="actions">
-          <Button onClick={() => history.push('/popup')}>Back</Button>
+          <Button onClick={this.handleBackClick}>Back</Button>
           <Button
             className="save-button"
-            onClick={this.handleSave}
+            onClick={this.handleSaveClick}
             color="primary"
             startIcon={<SaveIcon />}
             variant="contained"
           >
-            Save
+            Save & Copy
           </Button>
         </div>
       </div>

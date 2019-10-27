@@ -1,5 +1,4 @@
 import React from 'react';
-import copyToClipboard from 'copy-to-clipboard';
 
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
@@ -10,8 +9,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import CopyIcon from '@material-ui/icons/FileCopy';
 
 import './style.scss';
-import { defaultTemplates } from '../../utils/templates';
+import { defaultTemplates, copyToClipboard } from '../../utils/templates';
 import history from '../../utils/history';
+import { EDIT_PAGE_ROUTE } from '../../utils/routes';
 
 const handleTemplateClick = type => {
   const localStorageItem = localStorage.getItem(`${type}-template`);
@@ -20,6 +20,7 @@ const handleTemplateClick = type => {
   ).placeholder;
 
   copyToClipboard(localStorageItem || defaultTemplateText);
+  window.close();
 };
 
 const Home = () => (
@@ -35,7 +36,9 @@ const Home = () => (
             </ListItemIcon>
             <ListItemText primary={label} />
             <ListItemSecondaryAction>
-              <Button onClick={() => history.push(`/edit/${type}`)}>
+              <Button
+                onClick={() => history.push(`${EDIT_PAGE_ROUTE}/${type}`)}
+              >
                 Edit
               </Button>
             </ListItemSecondaryAction>

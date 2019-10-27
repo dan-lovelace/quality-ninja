@@ -1,3 +1,5 @@
+import clipboardCopy from 'copy-to-clipboard';
+
 export const defaultTemplates = [
   {
     type: 'bug',
@@ -8,12 +10,9 @@ Platform:&nbsp
 Steps to reproduce:
 1. Navigate to&nbsp
 2.&nbsp
-Result: Notice&nbsp
-
-Expected result:&nbsp
 
 Screenshot/video:&nbsp
-`
+`,
   },
   {
     type: 'qa-report',
@@ -30,6 +29,12 @@ Issues Opened: 0 Total
 Issues Reopened: 0 Total
 
 Issues Verified: 0 Total
-`
+`,
   },
-]
+];
+
+export function copyToClipboard(value) {
+  // copy twice because of a bug with this dependency
+  clipboardCopy(value);
+  clipboardCopy(value);
+}
