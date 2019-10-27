@@ -1,4 +1,14 @@
 .edit-page {
+  .heading {
+    .reset-button {
+      float: right;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
   .actions {
     .save-button {
       float: right;

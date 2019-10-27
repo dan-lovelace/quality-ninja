@@ -2,7 +2,9 @@ import React from 'react';
 
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
+import ResetIcon from '@material-ui/icons/Replay';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import './style.scss';
 import history from '../../utils/history';
@@ -39,6 +41,16 @@ class Edit extends React.Component {
     history.push(HOME_PAGE_ROUTE);
   };
 
+  handleResetClick = () => {
+    const {
+      state: { placeholder },
+    } = this;
+
+    this.setState({
+      templateText: placeholder,
+    });
+  };
+
   render() {
     const {
       templateText,
@@ -48,7 +60,16 @@ class Edit extends React.Component {
 
     return (
       <div className="edit-page">
-        <div className="heading">Editing {label} template</div>
+        <div className="heading">
+          Editing {label} template
+          <Tooltip title="Reset to default">
+            <ResetIcon
+              size="small"
+              className="reset-button"
+              onClick={this.handleResetClick}
+            />
+          </Tooltip>
+        </div>
         <div className="body">
           <TextField
             value={templateText}
