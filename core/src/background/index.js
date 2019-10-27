@@ -1,7 +1,11 @@
-chrome.runtime.onMessage.addListener(function (msg, sender) {
+import getBrowser from '../content_scripts/utils/browser';
+
+const browser = getBrowser();
+
+browser.runtime.onMessage.addListener((msg, sender) => {
   // validate the message's structure
-  if ((msg.from === 'content') && (msg.subject === 'ShowPageAction')) {
+  if (msg.from === 'content' && msg.subject === 'ShowPageAction') {
     // enable the page-action for the requesting tab
-    chrome.pageAction.show(sender.tab.id);
+    browser.pageAction.show(sender.tab.id);
   }
 });
