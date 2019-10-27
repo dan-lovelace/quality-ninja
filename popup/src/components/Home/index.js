@@ -25,6 +25,7 @@ const handleTemplateClick = type => {
 
 const Home = () => (
   <div className="home-page">
+    <div className="heading">Templates</div>
     <List dense>
       {defaultTemplates.map(template => {
         const { type, label } = template;
