@@ -1,11 +1,20 @@
-import getBrowser from '../content_scripts/utils/browser';
+import getBrowser from './utils/browser';
 
 const browser = getBrowser();
 
-browser.runtime.onMessage.addListener((msg, sender) => {
-  // validate the message's structure
-  if (msg.from === 'content' && msg.subject === 'ShowPageAction') {
-    // enable the page-action for the requesting tab
-    browser.pageAction.show(sender.tab.id);
-  }
+browser.runtime.onInstalled.addListener(() => {
+  browser.declarativeContent.onPageChanged.removeRules(undefined, () => {
+    browser.declarativeContent.onPageChanged.addRules([
+      {
+        conditions: [
+          new browser.declarativeContent.PageStateMatcher({
+            pageUrl: {
+              hostContains: '.',
+            },
+          }),
+        ],
+        actions: [new browser.declarativeContent.ShowPageAction()],
+      },
+    ]);
+  });
 });

@@ -3,18 +3,11 @@
   "manifest_version": 2,
   "version": "0.1.1",
   "description": "Toolkit for Quality Analysts",
-  "permissions": ["storage", "activeTab"],
+  "permissions": ["declarativeContent"],
   "background": {
     "scripts": ["bundle.background.js"],
     "persistent": false
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["bundle.content.js"],
-      "run_at": "document_start"
-    }
-  ],
   "page_action": {
     "default_icon": "images/quality-ninja-32.png",
     "default_title": "QualityNinja",
