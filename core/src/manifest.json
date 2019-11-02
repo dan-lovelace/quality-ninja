@@ -1,5 +1,5 @@
 {
-  "name": "Quality Ninja",
+  "name": "QA Ninja",
   "manifest_version": 2,
   "version": "0.1.1",
   "description": "Toolkit for Quality Analysts",
@@ -10,7 +10,7 @@
   },
   "page_action": {
     "default_icon": "images/quality-ninja-32.png",
-    "default_title": "Quality Ninja",
+    "default_title": "QA Ninja",
     "default_popup": "./popup/index.html"
   },
   "icons": {

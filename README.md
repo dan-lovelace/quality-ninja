@@ -1,4 +1,4 @@
-# Quality Ninja
+# QA Ninja
 
 A browser extension toolkit for Quality Analysts
 
