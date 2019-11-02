@@ -25,7 +25,6 @@ A build script combines everything into a `dist` directory at the project's root
 
 ### Builds
 
-- Install `jq` with Homebrew: `brew install jq`
 - Full local build: `npm run build` will build both `core` and `popup` together and place it in the `dist` folder. Optional:
   - `core` build only - `npm run build-partial:core`
   - `popup` build only - `npm run build-partial:popup`
