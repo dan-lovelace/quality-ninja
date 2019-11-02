@@ -2,6 +2,8 @@
 
 A browser extension toolkit for Quality Analysts
 
+[Available on the Chrome store](https://chrome.google.com/webstore/detail/qa-ninja/lnaljjlmclecjjncpigdhginelcpbphc)
+
 # Development
 
 This project is divided into two smaller projects, both built independently with webpack:
