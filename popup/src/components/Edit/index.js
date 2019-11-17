@@ -8,12 +8,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import './style.scss';
 import history from '../../utils/history';
-import { defaultTemplates, copyToClipboard } from '../../utils/templates';
+import { defaultTemplates, copyToClipboard, formatTemplateString } from '../../utils/templates';
 import { HOME_PAGE_ROUTE } from '../../utils/routes';
-
-function formatTemplateString(value) {
-  return value.replace(/&nbsp/g, ' ');
-}
 
 function Edit(props) {
   const [templateText, updateTemplateText] = useState();

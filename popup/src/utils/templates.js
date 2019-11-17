@@ -38,3 +38,8 @@ export function copyToClipboard(value) {
   clipboardCopy(value);
   clipboardCopy(value);
 }
+
+export function formatTemplateString(value) {
+  // replace non-breaking space characters with whitespace
+  return value.replace(/&nbsp/g, ' ');
+}
