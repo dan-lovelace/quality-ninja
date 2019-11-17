@@ -13,41 +13,37 @@ import { defaultTemplates, copyToClipboard } from '../../utils/templates';
 import history from '../../utils/history';
 import { EDIT_PAGE_ROUTE } from '../../utils/routes';
 
-const handleTemplateClick = type => {
+function handleTemplateClick(type) {
   const localStorageItem = localStorage.getItem(`${type}-template`);
-  const defaultTemplateText = defaultTemplates.find(
-    template => template.type === type,
-  ).placeholder;
+  const defaultTemplateText = defaultTemplates.find(template => template.type === type).placeholder;
 
   copyToClipboard(localStorageItem || defaultTemplateText);
   window.close();
-};
+}
 
-const Home = () => (
-  <div className="home-page">
-    <div className="heading">Templates</div>
-    <List>
-      {defaultTemplates.map(template => {
-        const { type, label } = template;
+function Home() {
+  return (
+    <div className="home-page">
+      <div className="heading">Templates</div>
+      <List>
+        {defaultTemplates.map(template => {
+          const { type, label } = template;
 
-        return (
-          <ListItem key={type} button onClick={() => handleTemplateClick(type)}>
-            <ListItemIcon>
-              <CopyIcon />
-            </ListItemIcon>
-            <ListItemText primary={label} />
-            <ListItemSecondaryAction>
-              <Button
-                onClick={() => history.push(`${EDIT_PAGE_ROUTE}/${type}`)}
-              >
-                Edit
-              </Button>
-            </ListItemSecondaryAction>
-          </ListItem>
-        );
-      })}
-    </List>
-  </div>
-);
+          return (
+            <ListItem key={type} button onClick={() => handleTemplateClick(type)}>
+              <ListItemIcon>
+                <CopyIcon />
+              </ListItemIcon>
+              <ListItemText primary={label} />
+              <ListItemSecondaryAction>
+                <Button onClick={() => history.push(`${EDIT_PAGE_ROUTE}/${type}`)}>Edit</Button>
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })}
+      </List>
+    </div>
+  );
+}
 
 export default Home;
