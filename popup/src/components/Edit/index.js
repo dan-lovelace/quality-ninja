@@ -15,16 +15,15 @@ class Edit extends React.Component {
   constructor(props) {
     super(props);
 
-    const defaultTemplate = defaultTemplates.find(
-      template => template.type === props.match.params.type,
-    );
+    const defaultTemplate = defaultTemplates.find(template => template.type === props.match.params.type);
     const { type, placeholder } = defaultTemplate;
-    const formattedPlaceholder = placeholder.replace(/&nbsp/g, ' ');
+
+    const templateString = localStorage.getItem(`${type}-template`) || placeholder;
+    const templateText = this.formatTemplateString(templateString);
 
     this.state = {
-      templateText:
-        localStorage.getItem(`${type}-template`) || formattedPlaceholder,
-      placeholder: formattedPlaceholder,
+      templateText,
+      placeholder: this.formatTemplateString(placeholder),
       defaultTemplate,
     };
   }
@@ -51,6 +50,10 @@ class Edit extends React.Component {
     });
   };
 
+  formatTemplateString = value => {
+    return value.replace(/&nbsp/g, ' ');
+  };
+
   render() {
     const {
       templateText,
@@ -63,19 +66,13 @@ class Edit extends React.Component {
         <div className="heading">
           Editing {label} template
           <Tooltip title="Reset to default">
-            <ResetIcon
-              size="small"
-              className="reset-button"
-              onClick={this.handleResetClick}
-            />
+            <ResetIcon size="small" className="reset-button" onClick={this.handleResetClick} />
           </Tooltip>
         </div>
         <div className="body">
           <TextField
             value={templateText}
-            onChange={({ target: { value } }) =>
-              this.setState({ templateText: value })
-            }
+            onChange={({ target: { value } }) => this.setState({ templateText: this.formatTemplateString(value) })}
             multiline
             fullWidth
             placeholder={placeholder}
