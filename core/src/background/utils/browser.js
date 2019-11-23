@@ -1,5 +1,7 @@
 export default function getBrowser() {
-  window.browser = window.chrome;
+  if (!window.browser) {
+    window.browser = window.chrome;
+  }
 
   return window.browser;
 }

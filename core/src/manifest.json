@@ -18,5 +18,21 @@
     "32": "images/quality-ninja-32.png",
     "48": "images/quality-ninja-48.png",
     "128": "images/quality-ninja-128.png"
+  },
+  "commands": {
+    "copy-bug-template": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+A",
+        "mac": "Command+Shift+A"
+      },
+      "description": "Copy bug template"
+    },
+    "copy-qa-report-template": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Z",
+        "mac": "Command+Shift+Z"
+      },
+      "description": "Copy QA report template"
+    }
   }
 }
