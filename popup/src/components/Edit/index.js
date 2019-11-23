@@ -8,7 +8,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import './style.scss';
 import history from '../../utils/history';
-import { defaultTemplates, copyToClipboard, formatTemplateString } from '../../utils/templates';
+import {
+  defaultTemplates,
+  copyToClipboard,
+  formatTemplateString,
+  getTemplateFromLocalStorage,
+  saveTemplateToLocalStorage,
+} from '../../utils/templates';
 import { HOME_PAGE_ROUTE } from '../../utils/routes';
 
 function Edit(props) {
@@ -25,7 +31,7 @@ function Edit(props) {
     } = props;
     const templateDefault = defaultTemplates.find(template => template.type === typeParam);
     const { type, placeholder: defaultPlaceholder } = templateDefault;
-    const templateString = localStorage.getItem(`${type}-template`) || defaultPlaceholder;
+    const templateString = getTemplateFromLocalStorage(type) || defaultPlaceholder;
 
     updateTemplateText(formatTemplateString(templateString));
     updatePlaceholder(formatTemplateString(defaultPlaceholder));
@@ -41,8 +47,10 @@ function Edit(props) {
   };
 
   const handleSaveClick = () => {
-    localStorage.setItem(`${defaultTemplate.type}-template`, templateText);
-    copyToClipboard(templateText);
+    const { type } = defaultTemplate;
+
+    saveTemplateToLocalStorage(type, templateText);
+    copyToClipboard(type);
     window.close();
   };
 

@@ -14,10 +14,7 @@ import history from '../../utils/history';
 import { EDIT_PAGE_ROUTE } from '../../utils/routes';
 
 function handleTemplateClick(type) {
-  const localStorageItem = localStorage.getItem(`${type}-template`);
-  const defaultTemplateText = defaultTemplates.find(template => template.type === type).placeholder;
-
-  copyToClipboard(localStorageItem || defaultTemplateText);
+  copyToClipboard(type);
   window.close();
 }
 
