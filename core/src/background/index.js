@@ -1,4 +1,5 @@
 import getBrowser from './utils/browser';
+import { copyToClipboard } from './utils/templates';
 
 const browser = getBrowser();
 
@@ -17,4 +18,18 @@ browser.runtime.onInstalled.addListener(() => {
       },
     ]);
   });
+});
+
+browser.commands.onCommand.addListener(command => {
+  switch (command) {
+    case 'copy-bug-template':
+      copyToClipboard('bug');
+      break;
+
+    case 'copy-qa-report-template':
+      copyToClipboard('qa-report');
+      break;
+
+    default:
+  }
 });

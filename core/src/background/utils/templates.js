@@ -42,10 +42,6 @@ export function getTemplateLocalStorageKey(templateType) {
   return `qa-ninja-${templateType}-template`;
 }
 
-export function saveTemplateToLocalStorage(templateType, value) {
-  localStorage.setItem(getTemplateLocalStorageKey(templateType), value);
-}
-
 export function getTemplateFromLocalStorage(templateType) {
   return localStorage.getItem(getTemplateLocalStorageKey(templateType));
 }
