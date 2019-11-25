@@ -42,11 +42,21 @@ const SettingsPage = () => {
             }
           >
             {commands &&
-              commands.map(command => (
-                <ListItem key={command.name}>
-                  <ListItemText primary={command.description} secondary={command.shortcut} />
-                </ListItem>
-              ))}
+              commands.map(command => {
+                const { description, shortcut } = command;
+                const shortcutText =
+                  shortcut && shortcut.length && shortcut.length > 0 ? (
+                    shortcut
+                  ) : (
+                    <span className="unset-shortcut">Not set, click Edit to configure</span>
+                  );
+
+                return (
+                  <ListItem key={command.name}>
+                    <ListItemText primary={description} secondary={shortcutText} />
+                  </ListItem>
+                );
+              })}
           </List>
         </Fragment>
       }
