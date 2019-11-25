@@ -12,7 +12,8 @@
     "prettier/prettier": "error",
     "max-len": ["error", 120],
     "react/prop-types": 0,
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+    "react/jsx-fragments": 0
   },
   "env": {
     "browser": true
